@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react';
 import './App.css';
 import SingleCard from './components/SingleCard';
+import Confetti from 'react-confetti';
+import { useWindowSize } from 'react-use';
+
 
 const cardImages=[
   {"src": "/img/1.png",matched:false},
@@ -9,7 +12,8 @@ const cardImages=[
   {"src": "/img/4.png",matched:false},
   {"src": "/img/5.png",matched:false},
   {"src": "/img/6.png",matched:false},
-  {"src": "/img/7.png",matched:false}
+  {"src": "/img/7.png",matched:false},
+  {"src": "/img/8.png",matched:false}
 ]
 
 function App() {
@@ -17,6 +21,10 @@ function App() {
   const[turns, setTurns]= useState([])
   const[choiceOne, setChoiceOne]=useState(null)
   const[choiceTwo, setChoiceTwo]=useState(null)
+  const [matchFound, setMatchFound] = useState(false);
+  const [gameOver, setGameOver] = useState(false);
+
+  const { width, height } = useWindowSize();
   // const[disabled, setDisabled]=useState(false)
 
   //shuffle cards
@@ -29,6 +37,8 @@ function App() {
     setTurns(0)
     setChoiceOne(null);
     setChoiceTwo(null);
+    setMatchFound(false);
+    setGameOver(false);
   }
 
   //handle a choice
@@ -44,20 +54,30 @@ function App() {
         setCards(prevCards=>{
           return prevCards.map(card=>{
             if(card.src===choiceOne.src){
-              return {...card, matched: true}
+              return {...card, matched: true};
             } else{
-              return card
+              return card;
             }
-          })
-        })
+          });
+        });
+        setMatchFound(true);
+        setTimeout(() => {
+          setMatchFound(false);
+        }, 2000);
         resetTurn()
       }else{
-        console.log("cards do not match!")
         setTimeout(()=>resetTurn(),1000)
       }
 
   },[choiceOne, choiceTwo]);
   console.log(cards)
+
+  //check if gameover
+  useEffect(() => {
+    if (cards.length && cards.every(card => card.matched)) {
+      setGameOver(true);
+    }
+  }, [cards]);
 
   //reset choices and increase turn
   const resetTurn=()=>{
@@ -70,7 +90,7 @@ function App() {
 
   return (
     <div className="App">
-    <h1>Magic Match</h1>
+    <h1>Happy Birthday Shreyas!</h1>
     <button onClick={shuffleCards}>New Game</button>
 
     <div className="card-grid">
@@ -84,7 +104,13 @@ function App() {
         />
       ))}
     </div>
-
+    {matchFound && <Confetti width={width} height={height} />}
+        {gameOver && (
+            <>
+              <Confetti width={width} height={height} numberOfPieces={5000} recycle={false} />
+              <div className="final-message">Yay! congratulations</div>
+            </>
+      )}
     </div>
   );
 }
