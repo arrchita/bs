@@ -1,24 +1,47 @@
-import React from 'react'
-import './SingleCard.css'
+// import React from 'react'
+// import './SingleCard.css'
 
-export default function SingleCard({card, handleChoice, flipped}) {
+// export default function SingleCard({card, handleChoice, flipped}) {
 
-    const handleClick=()=>{
-      // if (!disabled){
+//     const handleClick=()=>{
+//       // if (!disabled){
         
-      // }
-      handleChoice(card)
-    }
+//       // }
+//       handleChoice(card)
+//     }
+
+//   return (
+//     <div className='card'>
+//           <div className={flipped? "flipped": ""}>
+//             <img className='front' src={card.src} alt='card front'/>
+//             <img className='back' 
+//             src='/img/cover.png' 
+//             onClick={handleClick} 
+//             alt='card back'/>
+//           </div>
+//         </div>
+//   )
+// }
+
+import React from 'react';
+import './SingleCard.css';
+
+export default function SingleCard({ card, handleChoice, flipped }) {
+  const handleClick = () => {
+    handleChoice(card);
+  };
 
   return (
     <div className='card'>
-          <div className={flipped? "flipped": ""}>
-            <img className='front' src={card.src} alt='card front'/>
-            <img className='back' 
-            src='/img/cover.png' 
-            onClick={handleClick} 
-            alt='card back'/>
-          </div>
-        </div>
-  )
+      <div className={flipped ? "flipped" : ""}>
+        <img className='front' src={card.src} alt='card front' />
+        <img
+          className='back'
+          src={process.env.PUBLIC_URL + '/img/cover.png'}
+          onClick={handleClick}
+          alt='card back'
+        />
+      </div>
+    </div>
+  );
 }
