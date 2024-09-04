@@ -102,7 +102,7 @@ function App() {
 
   return (
     <div className="App">
-    <h1>Happy Birthday Shreyas!</h1>
+    <h1>"Get started with the game!"</h1>
     <button onClick={shuffleCards}>New Game</button>
 
     <div className="card-grid">
